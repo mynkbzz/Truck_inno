@@ -7,15 +7,27 @@ class DemoApp(MDApp):
     def build(self):
         layout = BoxLayout(orientation="vertical")
 
-        # Create a big rectangle shape in the center of the window
+        # Ask the user for the number of cells (smaller rectangles)
+        num_cells = int(input("Enter the number of cells:"))
+
+        # Calculate the size of each smaller rectangle and the gap between them
+        big_rectangle_width = 800
+        big_rectangle_height = 600
+        gap_size = 10  # Adjust this value to control the separation between smaller rectangles
+        cell_width = (big_rectangle_width - (num_cells - 1) * gap_size) / num_cells
+        cell_height = (big_rectangle_height - (num_cells - 1) * gap_size) / num_cells
+
         with layout.canvas:
             Color(1, 1, 0, 1)  # Set the fill color (blue in this example)
-            big_rectangle = Rectangle(pos=(100, 100), size=(800, 600))  # Position and size of the big rectangle
+            big_rectangle = Rectangle(pos=(100, 100), size=(big_rectangle_width, big_rectangle_height))
 
-        # Create a smaller rectangle inside the big rectangle
-        with layout.canvas:
-            Color(1, 0, 0, 1)  # Set the fill color (red in this example)
-            small_rectangle = Rectangle(pos=(100, 500), size=(300, 200))  # Position and size of the small rectangle
+        for i in range(num_cells):
+            for j in range(num_cells):
+                with layout.canvas:
+                    Color(1, 0, 0, 1)  # Set the fill color (red in this example)
+                    x = 100 + i * (cell_width + gap_size)
+                    y = 100 + j * (cell_height + gap_size)
+                    small_rectangle = Rectangle(pos=(x, y), size=(cell_width, cell_height))
 
         return layout
 
